@@ -1,0 +1,194 @@
+#include <stdio.h>
+#include <stdlib.h>		/* srand, rand */
+
+#include <3ds.h>
+#include <sf2d.h>
+
+#include "variables.h"
+
+void save()
+{
+    /*
+    char filename[13] = "/TACTICS.sav";
+
+    FILE *file = fopen(filename,"w+b");
+
+    //Write file
+    fwrite(&level_time[i], sizeof(level_time[i]), 1, file);
+    //Close file
+    fclose(file);
+    */
+}
+
+
+void load()
+{
+
+}
+
+void handleInput()
+{
+    hidScanInput();
+
+    kDown = hidKeysDown();
+    kHeld = hidKeysHeld();
+    kUp = hidKeysUp();
+
+    hidTouchRead(&Stylus);
+
+    if(kDown & (KEY_LEFT|KEY_CPAD_LEFT))
+        if(cursorX > 0)
+            cursorX--;
+
+    if(kDown & (KEY_RIGHT|KEY_CPAD_RIGHT))
+        if(cursorX < 400/TILE_SIZE - 1)
+            cursorX++;
+
+    if(kDown & (KEY_DOWN|KEY_CPAD_DOWN))
+        if(cursorY < 240/TILE_SIZE - 1)
+            cursorY++;
+
+    if(kDown & (KEY_UP|KEY_CPAD_UP))
+        if(cursorY > 0)
+            cursorY--;
+}
+
+void renderTop()
+{
+    // Render to top screen, left eye
+    sf2d_start_frame(GFX_TOP, GFX_LEFT);
+
+    sf2d_draw_texture(plains_tex, 7*TILE_SIZE-5, 7*TILE_SIZE);
+
+    sf2d_draw_texture(mountain_tex, 6*TILE_SIZE-5, 7*TILE_SIZE);
+
+    sf2d_draw_texture_rotate(road_i_tex, 9*TILE_SIZE+TILE_SIZE/2, 5*TILE_SIZE+TILE_SIZE/2, 1.57079633);
+    sf2d_draw_texture(road_c_tex, 8*TILE_SIZE-5, 5*TILE_SIZE);
+    sf2d_draw_texture(road_i_tex, 8*TILE_SIZE-5, 6*TILE_SIZE);
+    sf2d_draw_texture(road_i_tex, 8*TILE_SIZE-5, 7*TILE_SIZE);
+    sf2d_draw_texture(road_i_tex, 8*TILE_SIZE-5, 8*TILE_SIZE);
+
+    sf2d_draw_texture(r_infantry_tex, 7*TILE_SIZE-2, 7*TILE_SIZE);
+
+    sf2d_draw_rectangle(cursorX*TILE_SIZE-2, cursorY*TILE_SIZE, TILE_SIZE, TILE_SIZE, RGBA8(180, 180, 255, 180));
+
+    sf2d_end_frame();
+
+    // Render to top screen, right eye
+    sf2d_start_frame(GFX_TOP, GFX_RIGHT);
+
+    sf2d_draw_texture(plains_tex, 7*TILE_SIZE+5, 7*TILE_SIZE);
+
+    sf2d_draw_texture(mountain_tex, 6*TILE_SIZE+5, 7*TILE_SIZE);
+
+    sf2d_draw_texture_rotate(road_i_tex, 9*TILE_SIZE+TILE_SIZE/2, 5*TILE_SIZE+TILE_SIZE/2, 1.57079633);
+    sf2d_draw_texture(road_c_tex, 8*TILE_SIZE+5, 5*TILE_SIZE);
+    sf2d_draw_texture(road_i_tex, 8*TILE_SIZE+5, 6*TILE_SIZE);
+    sf2d_draw_texture(road_i_tex, 8*TILE_SIZE+5, 7*TILE_SIZE);
+    sf2d_draw_texture(road_i_tex, 8*TILE_SIZE+5, 8*TILE_SIZE);
+
+    sf2d_draw_texture(r_infantry_tex, 7*TILE_SIZE+2, 7*TILE_SIZE);
+
+    sf2d_draw_rectangle(cursorX*TILE_SIZE+2, cursorY*TILE_SIZE, TILE_SIZE, TILE_SIZE, RGBA8(180, 180, 255, 180));
+
+    sf2d_end_frame();
+}
+
+void renderBottom()
+{
+        static int xpos = 0;
+        static int ypos = 0;
+
+        // Render to bottom screen, left eye
+	sf2d_start_frame(GFX_BOTTOM, GFX_LEFT);
+
+        if(xpos >= 320)
+            xpos = 0;
+
+        if(ypos >= 240)
+            ypos = 0;
+
+        sf2d_draw_texture(r_infantry_tex, xpos++, ypos++);
+
+	sf2d_end_frame();
+}
+
+void initTextures()
+{
+	sf2d_set_clear_color(RGBA8(0xFF, 0xFF, 0xFF, 0xFF));
+
+        // Red Infantry
+        r_infantry_tex = sf2d_create_texture(r_infantry_img.width, r_infantry_img.height, GPU_RGBA8, SF2D_PLACE_RAM);
+        sf2d_fill_texture_from_RGBA8(r_infantry_tex, r_infantry_img.pixel_data, r_infantry_img.width, r_infantry_img.height);
+        sf2d_texture_tile32(r_infantry_tex);
+
+        // Plains Tile
+        plains_tex = sf2d_create_texture(plains_img.width, plains_img.height, GPU_RGBA8, SF2D_PLACE_RAM);
+        sf2d_fill_texture_from_RGBA8(plains_tex, plains_img.pixel_data, plains_img.width, plains_img.height);
+        sf2d_texture_tile32(plains_tex);
+
+        // Mountain Tile
+        mountain_tex = sf2d_create_texture(mountain_img.width, mountain_img.height, GPU_RGBA8, SF2D_PLACE_RAM);
+        sf2d_fill_texture_from_RGBA8(mountain_tex, mountain_img.pixel_data, mountain_img.width, mountain_img.height);
+        sf2d_texture_tile32(mountain_tex);
+
+        // Forest Tile
+        forest_tex = sf2d_create_texture(forest_img.width, forest_img.height, GPU_RGBA8, SF2D_PLACE_RAM);
+        sf2d_fill_texture_from_RGBA8(forest_tex, forest_img.pixel_data, forest_img.width, forest_img.height);
+        sf2d_texture_tile32(forest_tex);
+
+        // Road-I Tile
+        road_i_tex = sf2d_create_texture(road_i_img.width, road_i_img.height, GPU_RGBA8, SF2D_PLACE_RAM);
+        sf2d_fill_texture_from_RGBA8(road_i_tex, road_i_img.pixel_data, road_i_img.width, road_i_img.height);
+        sf2d_texture_tile32(road_i_tex);
+
+        // Road-C Tile
+        road_c_tex = sf2d_create_texture(road_c_img.width, road_c_img.height, GPU_RGBA8, SF2D_PLACE_RAM);
+        sf2d_fill_texture_from_RGBA8(road_c_tex, road_c_img.pixel_data, road_c_img.width, road_c_img.height);
+        sf2d_texture_tile32(road_c_tex);
+}
+
+void freeTextures()
+{
+	sf2d_free_texture(r_infantry_tex);
+	sf2d_free_texture(plains_tex);
+	sf2d_free_texture(mountain_tex);
+	sf2d_free_texture(forest_tex);
+	sf2d_free_texture(road_i_tex);
+	sf2d_free_texture(road_c_tex);
+}
+
+int main()
+{
+	sf2d_init();
+
+        sf2d_set_3D(true);
+
+	srand(osGetTime());
+
+        initTextures();
+
+	//load();
+
+	title_mode = true;
+
+	while (aptMainLoop())
+	{
+		handleInput();
+
+                // Start -> Quit Game
+		if (hidKeysDown() & KEY_START) 
+                    break;
+
+		renderTop();
+		renderBottom();
+
+		sf2d_swapbuffers();
+	}
+
+        freeTextures();
+
+	sf2d_fini();
+
+        return 0;
+}
