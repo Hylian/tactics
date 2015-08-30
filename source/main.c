@@ -115,34 +115,19 @@ void renderBottom()
 
 void initTexture(sf2d_texture** t, struct image i)
 {
-
         *t = sf2d_create_texture(i.width, i.height, GPU_RGBA8, SF2D_PLACE_RAM);
         sf2d_fill_texture_from_RGBA8(*t, i.pixel_data, i.width, i.height);
         sf2d_texture_tile32(*t);
-
 }
 
 void initAllTextures()
 {
-
-        // Red Infantry
         initTexture(&r_infantry_tex, r_infantry_img);
-
-        // Plains Tile
         initTexture(&plains_tex, plains_img);
-
-        // Mountain Tile
         initTexture(&mountain_tex, mountain_img);
-
-        // Forest Tile
         initTexture(&forest_tex, forest_img);
-
-        // Road-I Tile
         initTexture(&road_i_tex, road_i_img);
-
-        // Road-C Tile
         initTexture(&road_c_tex, road_c_img);
-
 }
 
 void freeAllTextures()
