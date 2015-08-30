@@ -62,7 +62,7 @@ void renderTop()
 
     sf2d_draw_texture(mountain_tex, 6*TILE_SIZE-5, 7*TILE_SIZE);
 
-    sf2d_draw_texture_rotate(road_i_tex, 9*TILE_SIZE+TILE_SIZE/2, 5*TILE_SIZE+TILE_SIZE/2, 1.57079633);
+    sf2d_draw_texture_rotate_hotspot(road_i_tex, 9*TILE_SIZE+TILE_SIZE/2-5, 5*TILE_SIZE+TILE_SIZE/2, 1.57079633, TILE_SIZE*0.5, TILE_SIZE*0.5);
     sf2d_draw_texture(road_c_tex, 8*TILE_SIZE-5, 5*TILE_SIZE);
     sf2d_draw_texture(road_i_tex, 8*TILE_SIZE-5, 6*TILE_SIZE);
     sf2d_draw_texture(road_i_tex, 8*TILE_SIZE-5, 7*TILE_SIZE);
@@ -81,7 +81,7 @@ void renderTop()
 
     sf2d_draw_texture(mountain_tex, 6*TILE_SIZE+5, 7*TILE_SIZE);
 
-    sf2d_draw_texture_rotate(road_i_tex, 9*TILE_SIZE+TILE_SIZE/2, 5*TILE_SIZE+TILE_SIZE/2, 1.57079633);
+    sf2d_draw_texture_rotate_hotspot(road_i_tex, 9*TILE_SIZE+TILE_SIZE/2+5, 5*TILE_SIZE+TILE_SIZE/2, 1.57079633, TILE_SIZE*0.5, TILE_SIZE*0.5);
     sf2d_draw_texture(road_c_tex, 8*TILE_SIZE+5, 5*TILE_SIZE);
     sf2d_draw_texture(road_i_tex, 8*TILE_SIZE+5, 6*TILE_SIZE);
     sf2d_draw_texture(road_i_tex, 8*TILE_SIZE+5, 7*TILE_SIZE);
