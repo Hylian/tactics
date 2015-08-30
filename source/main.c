@@ -113,21 +113,21 @@ void renderBottom()
 	sf2d_end_frame();
 }
 
-void initTexture(sf2d_texture** t, struct image i)
+void initTexture(sf2d_texture** t, const struct image* i)
 {
-        *t = sf2d_create_texture(i.width, i.height, GPU_RGBA8, SF2D_PLACE_RAM);
-        sf2d_fill_texture_from_RGBA8(*t, i.pixel_data, i.width, i.height);
+        *t = sf2d_create_texture(i->width, i->height, GPU_RGBA8, SF2D_PLACE_RAM);
+        sf2d_fill_texture_from_RGBA8(*t, i->pixel_data, i->width, i->height);
         sf2d_texture_tile32(*t);
 }
 
 void initAllTextures()
 {
-        initTexture(&r_infantry_tex, r_infantry_img);
-        initTexture(&plains_tex, plains_img);
-        initTexture(&mountain_tex, mountain_img);
-        initTexture(&forest_tex, forest_img);
-        initTexture(&road_i_tex, road_i_img);
-        initTexture(&road_c_tex, road_c_img);
+        initTexture(&r_infantry_tex, &r_infantry_img);
+        initTexture(&plains_tex, &plains_img);
+        initTexture(&mountain_tex, &mountain_img);
+        initTexture(&forest_tex, &forest_img);
+        initTexture(&road_i_tex, &road_i_img);
+        initTexture(&road_c_tex, &road_c_img);
 }
 
 void freeAllTextures()
