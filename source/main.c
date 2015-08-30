@@ -113,42 +113,39 @@ void renderBottom()
 	sf2d_end_frame();
 }
 
-void initTextures()
+void initTexture(sf2d_texture** t, struct image i)
 {
-	sf2d_set_clear_color(RGBA8(0xFF, 0xFF, 0xFF, 0xFF));
 
-        // Red Infantry
-        r_infantry_tex = sf2d_create_texture(r_infantry_img.width, r_infantry_img.height, GPU_RGBA8, SF2D_PLACE_RAM);
-        sf2d_fill_texture_from_RGBA8(r_infantry_tex, r_infantry_img.pixel_data, r_infantry_img.width, r_infantry_img.height);
-        sf2d_texture_tile32(r_infantry_tex);
+        *t = sf2d_create_texture(i.width, i.height, GPU_RGBA8, SF2D_PLACE_RAM);
+        sf2d_fill_texture_from_RGBA8(*t, i.pixel_data, i.width, i.height);
+        sf2d_texture_tile32(*t);
 
-        // Plains Tile
-        plains_tex = sf2d_create_texture(plains_img.width, plains_img.height, GPU_RGBA8, SF2D_PLACE_RAM);
-        sf2d_fill_texture_from_RGBA8(plains_tex, plains_img.pixel_data, plains_img.width, plains_img.height);
-        sf2d_texture_tile32(plains_tex);
-
-        // Mountain Tile
-        mountain_tex = sf2d_create_texture(mountain_img.width, mountain_img.height, GPU_RGBA8, SF2D_PLACE_RAM);
-        sf2d_fill_texture_from_RGBA8(mountain_tex, mountain_img.pixel_data, mountain_img.width, mountain_img.height);
-        sf2d_texture_tile32(mountain_tex);
-
-        // Forest Tile
-        forest_tex = sf2d_create_texture(forest_img.width, forest_img.height, GPU_RGBA8, SF2D_PLACE_RAM);
-        sf2d_fill_texture_from_RGBA8(forest_tex, forest_img.pixel_data, forest_img.width, forest_img.height);
-        sf2d_texture_tile32(forest_tex);
-
-        // Road-I Tile
-        road_i_tex = sf2d_create_texture(road_i_img.width, road_i_img.height, GPU_RGBA8, SF2D_PLACE_RAM);
-        sf2d_fill_texture_from_RGBA8(road_i_tex, road_i_img.pixel_data, road_i_img.width, road_i_img.height);
-        sf2d_texture_tile32(road_i_tex);
-
-        // Road-C Tile
-        road_c_tex = sf2d_create_texture(road_c_img.width, road_c_img.height, GPU_RGBA8, SF2D_PLACE_RAM);
-        sf2d_fill_texture_from_RGBA8(road_c_tex, road_c_img.pixel_data, road_c_img.width, road_c_img.height);
-        sf2d_texture_tile32(road_c_tex);
 }
 
-void freeTextures()
+void initAllTextures()
+{
+
+        // Red Infantry
+        initTexture(&r_infantry_tex, r_infantry_img);
+
+        // Plains Tile
+        initTexture(&plains_tex, plains_img);
+
+        // Mountain Tile
+        initTexture(&mountain_tex, mountain_img);
+
+        // Forest Tile
+        initTexture(&forest_tex, forest_img);
+
+        // Road-I Tile
+        initTexture(&road_i_tex, road_i_img);
+
+        // Road-C Tile
+        initTexture(&road_c_tex, road_c_img);
+
+}
+
+void freeAllTextures()
 {
 	sf2d_free_texture(r_infantry_tex);
 	sf2d_free_texture(plains_tex);
@@ -166,7 +163,9 @@ int main()
 
 	srand(osGetTime());
 
-        initTextures();
+	sf2d_set_clear_color(RGBA8(0xFF, 0xFF, 0xFF, 0xFF));
+
+        initAllTextures();
 
 	//load();
 
@@ -186,7 +185,7 @@ int main()
 		sf2d_swapbuffers();
 	}
 
-        freeTextures();
+        freeAllTextures();
 
 	sf2d_fini();
 
